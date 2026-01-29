@@ -67,6 +67,10 @@ Adicionalmente se implementan elementos de interfaz como el botón de parada (`s
 
 ---
 
+https://drive.google.com/file/d/1qnH8Sy6Fdtw1cG0vWX936y3tfv3Q6fQp/view?usp=drive_link
+
+---
+
 ## 7. Resultados obtenidos
 
 En el panel frontal de LabVIEW se obtienen las formas de onda de las corrientes trifásicas en el punto B1 (`IabcB1`) y, según la configuración, también las tensiones trifásicas `VabcB1`, representadas en función del tiempo. [file:46]
