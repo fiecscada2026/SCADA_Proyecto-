@@ -92,7 +92,7 @@ El uso del subsistema IED para calcular potencias y magnitudes RMS, junto con la
 
 ## 9. Conclusiones del ejercicio
 
-El ejercicio permitió implementar un modelo detallado de un sistema de potencia de 8 barras con dos unidades de generación síncrona, adecuado para estudiar fenómenos de estabilidad transitoria ante cambios de carga y fallas en la red. [file:48]  
-La estructura multinivel (Proceso – RTU/IED – Master/HMI) demostró la funcionalidad de una arquitectura SCADA aplicada a sistemas de potencia, donde las mediciones de campo son procesadas por IED y presentadas en una interfaz gráfica que permite supervisión y control en tiempo real. [file:48]  
-Las simulaciones offline y en tiempo real mostraron comportamientos coherentes, validando la correcta implementación del modelo en RT‑Lab/OPAL‑RT y evidenciando la utilidad de estas herramientas para el análisis de estabilidad y la formación en operación de sistemas eléctricos. [file:48]  
+El ejercicio permitió implementar un modelo detallado de un sistema de potencia de 8 barras con dos unidades de generación síncrona, adecuado para estudiar fenómenos de estabilidad transitoria ante cambios de carga y fallas en la red. 
+La estructura multinivel (Proceso – RTU/IED – Master/HMI) demostró la funcionalidad de una arquitectura SCADA aplicada a sistemas de potencia, donde las mediciones de campo son procesadas por IED y presentadas en una interfaz gráfica que permite supervisión y control en tiempo real.
+Las simulaciones offline y en tiempo real mostraron comportamientos coherentes, validando la correcta implementación del modelo en RT‑Lab/OPAL‑RT y evidenciando la utilidad de estas herramientas para el análisis de estabilidad y la formación en operación de sistemas eléctricos.  
 En conjunto, el trabajo refuerza conceptos de estabilidad, control de generación, respuesta ante contingencias y uso de plataformas de simulación en tiempo real integradas con entornos tipo SCADA.
