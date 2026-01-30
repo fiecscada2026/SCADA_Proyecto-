@@ -1,0 +1,101 @@
+
+# Ejercicio 2_ OPC 
+
+---
+
+Implementación de un sistema SCADA en tiempo real para monitoreo de variables eléctricas mediante MATLAB/Simulink, OPAL-RT y LabVIEW con comunicación OPC UA. 
+
+---
+
+## 2. Objetivo del ejercicio
+
+El objetivo del ejercicio es diseñar y poner en operación un sistema de supervisión y adquisición de datos en tiempo real que permita medir, transmitir y visualizar variables eléctricas de un sistema de potencia modelado en MATLAB/Simulink, ejecutado en OPAL-RT y monitorizado desde LabVIEW utilizando el protocolo OPC UA. 
+
+---
+
+## 3. Descripción del sistema implementado
+
+El sistema implementado se basa en un modelo de sistema eléctrico de potencia en MATLAB/Simulink que incluye una fuente trifásica, un interruptor de protección y un transformador de dos devanados que alimenta una máquina asincrónica de 5.5 HP conectada a una carga RLC. 
+
+Para habilitar la ejecución en tiempo real en OPAL-RT se integran bloques específicos como `OpComm`, bloques de medición trifásica (`Three-Phase V-I Measurement`), elementos de memoria y salidas `OpOutput`, que permiten separar la lógica de control de la monitorización y enviar señales como `VabcB1` e `IabcB1` hacia la plataforma de tiempo real. 
+
+En la parte de supervisión, LabVIEW recibe las variables publicadas por OPAL-RT a través de un servidor OPC UA y las muestra en un panel frontal que incluye gráficos de tiempo real, indicadores de estado y controles básicos de operación, formando en conjunto un esquema SCADA de laboratorio. 
+
+---
+
+## 4. Diagrama de conexiones (hardware y software)
+
+A nivel hardware, el sistema considera el simulador OPAL-RT ejecutando el modelo de Simulink, vinculado a la estación de trabajo donde corre LabVIEW mediante la red Ethernet del laboratorio y el servidor de comunicación OPC UA.
+
+A nivel software, el diagrama de conexiones incluye:
+   * El modelo de Simulink con sus bloques de medición y `OpOutput`.
+   * El entorno OPAL-RT que corre el modelo en tiempo real.
+   * El servidor OPC UA que expone las variables medidas.
+   * El cliente OPC UA implementado en LabVIEW, que consume dichas variables y las presenta en el panel frontal. [file:46]
+
+---
+
+## 5. Explicación detallada de las conexiones
+
+En Simulink, los bloques `Three-Phase V-I Measurement` se conectan a los puntos de interés del sistema eléctrico, como los nodos B1 y B2, para obtener tensiones y corrientes trifásicas asociadas a la fuente, el transformador y la carga. 
+
+Las señales medidas se conducen hacia bloques de memoria y posteriormente hacia los bloques `OpOutput`, que se encargan de enviar las variables (por ejemplo `VabcB1` e `IabcB1`) al entorno OPAL-RT en un formato compatible con la ejecución en tiempo real y con la exportación hacia OPC UA. 
+
+En LabVIEW se configura un cliente OPC UA que se conecta al servidor asociado a OPAL-RT, se seleccionan los nodos de datos correspondientes a las variables eléctricas de interés y estas se vinculan a indicadores gráficos, campos numéricos y controles en el panel frontal para supervisar el comportamiento del sistema y gestionar la sesión de adquisición. 
+
+Adicionalmente se implementan elementos de interfaz como el botón de parada (`stop`), indicadores de calidad (`status Good`) y campos de estado de conexión, que permiten verificar que la comunicación OPC UA se mantiene activa y que las señales adquiridas son válidas. 
+
+---
+
+## 6. Procedimiento de simulación
+
+1. **Configuración del modelo en MATLAB/Simulink**  
+   Se construye el esquema del sistema de potencia con la fuente trifásica, el interruptor, el transformador de dos devanados, la máquina asincrónica de 5.5 HP y la carga RLC, incorporando los bloques de medición y los `OpOutput` requeridos por OPAL-RT. 
+
+2. **Preparación para tiempo real**  
+   Se ajustan los parámetros de simulación (paso de integración, tiempos de muestreo) y se integra el bloque `OpComm` para garantizar la sincronización y la comunicación con la plataforma OPAL-RT. 
+
+3. **Descarga del modelo en OPAL-RT**  
+   Se compila el modelo, se transfiere al hardware de OPAL-RT y se inicia la ejecución en tiempo real, verificando que las señales de salida se generan correctamente.
+   
+5. **Configuración de LabVIEW**  
+   Se crea una aplicación cliente OPC UA, se establece la conexión con el servidor de OPAL-RT y se seleccionan las variables de interés que serán mostradas en el panel frontal (por ejemplo corrientes y tensiones en B1). 
+
+6. **Ejecución de la simulación**  
+   Se inicia la adquisición de datos desde LabVIEW, se observa la evolución temporal de las señales y se realizan, si corresponde, variaciones de condiciones de operación para analizar la respuesta del sistema. 
+
+---
+
+Tutorial:
+https://drive.google.com/file/d/1qnH8Sy6Fdtw1cG0vWX936y3tfv3Q6fQp/view?usp=drive_link
+
+---
+
+## 7. Resultados obtenidos
+
+En el panel frontal de LabVIEW se obtienen las formas de onda de las corrientes trifásicas en el punto B1 (`IabcB1`) y, según la configuración, también las tensiones trifásicas `VabcB1`, representadas en función del tiempo. 
+
+Los gráficos muestran la amplitud instantánea de las señales en el eje vertical y el tiempo en el eje horizontal, lo que permite observar el régimen permanente del sistema, posibles transitorios asociados a la conmutación del interruptor y el comportamiento de la máquina asincrónica bajo la carga conectada. 
+
+Además de las formas de onda, se visualizan indicadores de calidad de los datos (por ejemplo `status Good`), así como el estado de la conexión OPC UA y de la ejecución, lo que confirma que la comunicación entre OPAL-RT y LabVIEW se realiza de manera correcta y continua durante la simulación. 
+
+---
+
+## 8. Análisis de resultados
+
+Las formas de onda de corrientes y tensiones observadas en LabVIEW son coherentes con el funcionamiento esperado de un sistema trifásico alimentando una máquina asincrónica, presentando valores estables en régimen permanente y transitorios controlados durante los eventos de conmutación. 
+
+El hecho de que los indicadores de calidad muestren `status Good` y que no se registren pérdidas de comunicación evidencia que la infraestructura OPC UA está correctamente configurada, garantizando la integridad y disponibilidad de los datos en tiempo real. 
+
+Desde el punto de vista de ingeniería, el sistema demuestra la capacidad de la plataforma OPAL-RT para ejecutar modelos de Simulink en tiempo real y la facilidad con la que LabVIEW puede integrarse como interfaz SCADA para la visualización y supervisión de variables de proceso. 
+
+
+---
+
+## 9. Conclusiones del ejercicio
+
+El ejercicio permitió validar un flujo completo de trabajo para la implementación de un sistema SCADA académico, desde el modelado del sistema de potencia en MATLAB/Simulink hasta la supervisión en tiempo real mediante LabVIEW y OPC UA, usando OPAL-RT como plataforma de ejecución. 
+
+Se comprobó que la correcta configuración de los bloques de medición, `OpComm` y `OpOutput` es fundamental para asegurar la compatibilidad entre el modelo de Simulink y el entorno de tiempo real, así como para la exportación fiable de variables hacia el servidor OPC UA. 
+
+Finalmente, el uso de LabVIEW como interfaz gráfica proporcionó una herramienta flexible para visualizar las formas de onda, monitorear el estado de la comunicación y gestionar la adquisición de datos, reforzando los conceptos de supervisión, control y adquisición de datos en sistemas eléctricos en tiempo real. 
